@@ -1,0 +1,47 @@
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div id="app"></div>
+
+<script>
+  const { createApp } = Vue
+ 
+  const Counter = {
+    template : `
+        <div>
+            Count is: {{count}}
+            <button v-on:click="increment">Increment</button>
+            <button v-on:click="decrement">Decrement</button>
+        </div>
+    ` ,
+    data (){
+        return {
+        count: 5
+        }
+    },
+    methods:{
+        increment(){
+            this.count++;
+        },
+        decrement(){
+            this.count--;
+        }
+    }
+  }
+
+  const App = { // El componente principal será App
+    template: `
+        <header>Navbar</header>
+        <main>
+            <Counter/>
+        </main>
+        <footer>Footer</footer>
+    `
+  }
+
+  const app = createApp(App); // Obtener la instancia del componente principal
+  app.component('Counter',Counter); // El componente Counter lo registro como el objeto Counter dentro del componente principal que es App
+  app.mount('#app'); // Montar la aplicación a través del componente principal en el div app
+
+  // Ahora los componentes están unidos, siempre debe existir un componente principal que englobe el resto para generar el html
+
+</script>
