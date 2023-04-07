@@ -1,47 +1,76 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <nav class="navbar">
+    <img src="./assets/logo.svg" width="50" />
+    <div class="brand">Todo List App</div>
+  </nav>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
+  <main class="container">
+    <section>
+      <form class="add-todo-form">
+        <input type="text" placeholder="Todo Title" />
+        <div>
+          <button>Add Todo</button>
+        </div>
+      </form>
+    </section>
+    <section>
+      <div class="todo">
+        <p>Pasear al perro</p>
+        <div>
+          <button class="remove-todo-btn">&times;</button>
+        </div>
+      </div>
+    </section>
   </main>
+
 </template>
 
+<script>
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+.navbar {
+  display: flex;
+  align-items: center;
+  background: var(--navbar-color);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+.brand {
+  font-size: 2rem;
+}
+.add-todo-form {
+  display: flex;
+  justify-content: space-between;
+}
+.add-todo-form input {
+  width: 80%;
+  border: solid 2px var(--accent-color);
+}
+.add-todo-form button {
+  background: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  height: 50px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--accent-color);
+  margin-top: 30px;
+  padding: 0 20px 0 20px;
+  border-radius: 10px;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.remove-todo-btn {
+  border-radius: 50%;
+  border: none;
+  height: 40px;
+  width: 40px;
+  font-size: 30px;
+  color: var(--text-color);
+  background: var(--danger-color);
 }
 </style>
