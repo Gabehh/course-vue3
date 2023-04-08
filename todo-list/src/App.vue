@@ -7,17 +7,17 @@
   <main class="container">
     <section>
       <form class="add-todo-form">
-        <input type="text" placeholder="Todo Title" />
+        <input type="text" v-model="todoTittle" placeholder="Todo Title" />
         <div>
-          <button>Add Todo</button>
+          <button @click.prevent="addTodo">Add Todo</button> 
         </div>
       </form>
     </section>
     <section>
-      <div class="todo">
-        <p>Pasear al perro</p>
+      <div v-for="(todo) in todos" class="todo">
+        <p>{{ todo }}</p>
         <div>
-          <button class="remove-todo-btn">&times;</button>
+          <button @click="removeTodo(todo)" class="remove-todo-btn">&times;</button>
         </div>
       </div>
     </section>
@@ -26,6 +26,23 @@
 </template>
 
 <script>
+  export default {
+    data(){
+      return  {
+        todoTittle: "",
+        todos: []
+      }
+    },
+    methods:{
+      addTodo(){
+        //e.preventDefault(); // Para que no refresque la página (ya que intenta mandarlo a un servidor porque el botón está dentro del formulario)
+        this.todos.push(this.todoTittle);
+      },
+      removeTodo(todoTittle){
+        this.todos = this.todos.filter(x=> x !== todoTittle) // Se crea una lista nueva y se asigna a la que ya estaba antes
+      }
+    }
+  };
 </script>
 
 <style scoped>
