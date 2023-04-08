@@ -14,8 +14,8 @@
       </form>
     </section>
     <section>
-      <div v-for="(todo) in todos" class="todo">
-        <p>{{ todo }}</p>
+      <div v-for="(todo) in todos" class="todo" :key="todo.id">
+        <p>{{ todo.title }}</p>
         <div>
           <button @click="removeTodo(todo)" class="remove-todo-btn">&times;</button>
         </div>
@@ -36,7 +36,10 @@
     methods:{
       addTodo(){
         //e.preventDefault(); // Para que no refresque la página (ya que intenta mandarlo a un servidor porque el botón está dentro del formulario)
-        this.todos.push(this.todoTittle);
+        this.todos.push({
+          title: this.todoTittle,
+          id: Math.floor(Math.random()*1000)
+        });
       },
       removeTodo(todoTittle){
         this.todos = this.todos.filter(x=> x !== todoTittle) // Se crea una lista nueva y se asigna a la que ya estaba antes
