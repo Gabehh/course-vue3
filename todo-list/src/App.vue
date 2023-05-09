@@ -5,6 +5,10 @@
   </nav>
 
   <main class="container">
+    <div v-if="showAlert" class="alert">
+      <div>Todo title is required</div>
+      <div @click="showAlert = false" class="close-alert">&times;</div>
+    </div>
     <section>
       <form class="add-todo-form">
         <input type="text" v-model="todoTittle" placeholder="Todo Title" />
@@ -30,11 +34,18 @@
     data(){
       return  {
         todoTittle: "",
-        todos: []
+        todos: [],
+        showAlert: false
       }
     },
     methods:{
       addTodo(){
+        if(this.todoTittle === ""){
+          this.showAlert = true;
+          return;
+        }
+        else
+          this.showAlert = false
         //e.preventDefault(); // Para que no refresque la página (ya que intenta mandarlo a un servidor porque el botón está dentro del formulario)
         this.todos.push({
           title: this.todoTittle,
@@ -58,6 +69,22 @@
 }
 .brand {
   font-size: 2rem;
+}
+
+.alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--danger-color);
+  margin-bottom: 20px;
+  padding: 0 20px 0 20px;
+  border-radius: 10px;
+  height: 50px;
+}
+
+.close-alert{
+  font-size:50px;
+  cursor: pointer;
 }
 .add-todo-form {
   display: flex;
@@ -92,5 +119,6 @@
   font-size: 30px;
   color: var(--text-color);
   background: var(--danger-color);
+  cursor: pointer;
 }
 </style>
