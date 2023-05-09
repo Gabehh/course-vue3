@@ -3,60 +3,64 @@
     <img src="./assets/logo.svg" width="50" />
     <div class="brand">Todo List App</div>
   </nav>
-
   <main class="container">
-    <div v-if="showAlert" class="alert">
-      <div>Todo title is required</div>
-      <div @click="showAlert = false" class="close-alert">&times;</div>
-    </div>
+    <Alert
+      message="Todo title is required"
+      :show="showAlert"
+      @close="showAlert = false"
+      type="info"
+    />
     <section>
       <form class="add-todo-form">
         <input type="text" v-model="todoTittle" placeholder="Todo Title" />
         <div>
-          <button @click.prevent="addTodo">Add Todo</button> 
+          <button @click.prevent="addTodo">Add Todo</button>
         </div>
       </form>
     </section>
     <section>
-      <div v-for="(todo) in todos" class="todo" :key="todo.id">
+      <div v-for="todo in todos" class="todo" :key="todo.id">
         <p>{{ todo.title }}</p>
         <div>
-          <button @click="removeTodo(todo)" class="remove-todo-btn">&times;</button>
+          <button @click="removeTodo(todo)" class="remove-todo-btn">
+            &times;
+          </button>
         </div>
       </div>
     </section>
   </main>
-
 </template>
 
 <script>
-  export default {
-    data(){
-      return  {
-        todoTittle: "",
-        todos: [],
-        showAlert: false
-      }
+import Alert from "./components/Alert.vue";
+export default {
+  components: {
+    Alert,
+  },
+  data() {
+    return {
+      todoTittle: "",
+      todos: [],
+      showAlert: false,
+    };
+  },
+  methods: {
+    addTodo() {
+      if (this.todoTittle === "") {
+        this.showAlert = true;
+        return;
+      } else this.showAlert = false;
+      //e.preventDefault(); // Para que no refresque la página (ya que intenta mandarlo a un servidor porque el botón está dentro del formulario)
+      this.todos.push({
+        title: this.todoTittle,
+        id: Math.floor(Math.random() * 1000),
+      });
     },
-    methods:{
-      addTodo(){
-        if(this.todoTittle === ""){
-          this.showAlert = true;
-          return;
-        }
-        else
-          this.showAlert = false
-        //e.preventDefault(); // Para que no refresque la página (ya que intenta mandarlo a un servidor porque el botón está dentro del formulario)
-        this.todos.push({
-          title: this.todoTittle,
-          id: Math.floor(Math.random()*1000)
-        });
-      },
-      removeTodo(todoTittle){
-        this.todos = this.todos.filter(x=> x !== todoTittle) // Se crea una lista nueva y se asigna a la que ya estaba antes
-      }
-    }
-  };
+    removeTodo(todoTittle) {
+      this.todos = this.todos.filter((x) => x !== todoTittle); // Se crea una lista nueva y se asigna a la que ya estaba antes
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -82,8 +86,8 @@
   height: 50px;
 }
 
-.close-alert{
-  font-size:50px;
+.close-alert {
+  font-size: 50px;
   cursor: pointer;
 }
 .add-todo-form {
