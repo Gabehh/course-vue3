@@ -1,8 +1,5 @@
 <template>
-  <nav class="navbar">
-    <img src="./assets/logo.svg" width="50" />
-    <div class="brand">Todo List App</div>
-  </nav>
+  <Navbar/>
   <main class="container">
     <Alert
       message="Todo title is required"
@@ -11,12 +8,7 @@
       type="info"
     />
     <section>
-      <form class="add-todo-form">
-        <input type="text" v-model="todoTittle" placeholder="Todo Title" />
-        <div>
-          <button @click.prevent="addTodo">Add Todo</button>
-        </div>
-      </form>
+      <AddTodoForm @submit="addTodo"/>
     </section>
     <section>
       <div v-for="todo in todos" class="todo" :key="todo.id">
@@ -32,11 +24,15 @@
 </template>
 
 <script>
+import AddTodoForm from "./components/AddTodoForm.vue";
 import Alert from "./components/Alert.vue";
+import Navbar from "./components/Navbar.vue";
 export default {
   components: {
     Alert,
-  },
+    Navbar,
+    AddTodoForm
+},
   data() {
     return {
       todoTittle: "",
@@ -45,14 +41,14 @@ export default {
     };
   },
   methods: {
-    addTodo() {
-      if (this.todoTittle === "") {
+    addTodo(title) {
+      if (title === "") {
         this.showAlert = true;
         return;
       } else this.showAlert = false;
       //e.preventDefault(); // Para que no refresque la página (ya que intenta mandarlo a un servidor porque el botón está dentro del formulario)
       this.todos.push({
-        title: this.todoTittle,
+        title,
         id: Math.floor(Math.random() * 1000),
       });
     },
@@ -64,17 +60,6 @@ export default {
 </script>
 
 <style scoped>
-.navbar {
-  display: flex;
-  align-items: center;
-  background: var(--navbar-color);
-  padding: 20px;
-  margin-bottom: 30px;
-}
-.brand {
-  font-size: 2rem;
-}
-
 .alert {
   display: flex;
   justify-content: space-between;
@@ -90,39 +75,5 @@ export default {
   font-size: 50px;
   cursor: pointer;
 }
-.add-todo-form {
-  display: flex;
-  justify-content: space-between;
-}
-.add-todo-form input {
-  width: 80%;
-  border: solid 2px var(--accent-color);
-}
-.add-todo-form button {
-  background: var(--accent-color);
-  color: var(--text-color);
-  border: none;
-  height: 50px;
-}
 
-.todo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--accent-color);
-  margin-top: 30px;
-  padding: 0 20px 0 20px;
-  border-radius: 10px;
-}
-
-.remove-todo-btn {
-  border-radius: 50%;
-  border: none;
-  height: 40px;
-  width: 40px;
-  font-size: 30px;
-  color: var(--text-color);
-  background: var(--danger-color);
-  cursor: pointer;
-}
 </style>
