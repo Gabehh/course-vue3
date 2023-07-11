@@ -11,14 +11,12 @@
       <AddTodoForm @submit="addTodo"/>
     </section>
     <section>
-      <div v-for="todo in todos" class="todo" :key="todo.id">
-        <p>{{ todo.title }}</p>
-        <div>
-          <button @click="removeTodo(todo)" class="remove-todo-btn">
-            &times;
-          </button>
-        </div>
-      </div>
+      <Todo
+        v-for="todo in todos"
+        :key="todo.id"
+        :title="todo.title"
+        @remove="removeTodo(todo.id)"
+      />
     </section>
   </main>
 </template>
@@ -27,11 +25,14 @@
 import AddTodoForm from "./components/AddTodoForm.vue";
 import Alert from "./components/Alert.vue";
 import Navbar from "./components/Navbar.vue";
+import Todo from "./components/Todo.vue";
+
 export default {
   components: {
     Alert,
     Navbar,
-    AddTodoForm
+    AddTodoForm,
+    Todo
 },
   data() {
     return {
@@ -52,8 +53,8 @@ export default {
         id: Math.floor(Math.random() * 1000),
       });
     },
-    removeTodo(todoTittle) {
-      this.todos = this.todos.filter((x) => x !== todoTittle); // Se crea una lista nueva y se asigna a la que ya estaba antes
+    removeTodo(id) {
+      this.todos = this.todos.filter((todo) => todo.id !== id); // Se crea una lista nueva y se asigna a la que ya estaba antes
     },
   },
 };
