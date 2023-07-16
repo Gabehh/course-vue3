@@ -7,13 +7,12 @@
 
 <script>
 export default {
-  //exportamos el componente
   props: {
     message: {
       required: true,
       type: String,
     },
-    show: {
+    showAlert: {
       required: true,
       type: Boolean,
     },
@@ -23,7 +22,7 @@ export default {
       validator(value){
         return ["danger", "warning", "info"].includes(value);
       }
-    },
+    }
   },
   computed:{
     backgroundColor(){
@@ -35,7 +34,7 @@ export default {
       return options[this.type];
     }
   },
-  emits: ["close"]
+  emits: ['close'],
 };
 </script>
 

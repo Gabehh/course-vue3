@@ -5,7 +5,6 @@
       message="Todo title is required"
       :show="showAlert"
       @close="showAlert = false"
-      type="info"
     />
     <section>
       <AddTodoForm @submit="addTodo"/>
@@ -22,9 +21,9 @@
 </template>
 
 <script>
-import AddTodoForm from "./components/AddTodoForm.vue";
 import Alert from "./components/Alert.vue";
 import Navbar from "./components/Navbar.vue";
+import AddTodoForm from "./components/AddTodoForm.vue";
 import Todo from "./components/Todo.vue";
 
 export default {
@@ -32,11 +31,11 @@ export default {
     Alert,
     Navbar,
     AddTodoForm,
-    Todo
+    Todo,
 },
   data() {
     return {
-      todoTittle: "",
+      todoTitle: "",
       todos: [],
       showAlert: false,
     };
@@ -46,35 +45,16 @@ export default {
       if (title === "") {
         this.showAlert = true;
         return;
-      } else this.showAlert = false;
-      //e.preventDefault(); // Para que no refresque la página (ya que intenta mandarlo a un servidor porque el botón está dentro del formulario)
+      } 
       this.todos.push({
         title,
         id: Math.floor(Math.random() * 1000),
       });
     },
     removeTodo(id) {
-      this.todos = this.todos.filter((todo) => todo.id !== id); // Se crea una lista nueva y se asigna a la que ya estaba antes
+      this.todos = this.todos.filter((todo) => todo.id !== id);
     },
   },
 };
 </script>
 
-<style scoped>
-.alert {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--danger-color);
-  margin-bottom: 20px;
-  padding: 0 20px 0 20px;
-  border-radius: 10px;
-  height: 50px;
-}
-
-.close-alert {
-  font-size: 50px;
-  cursor: pointer;
-}
-
-</style>

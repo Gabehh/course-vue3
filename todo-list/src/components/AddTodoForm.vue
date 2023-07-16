@@ -1,24 +1,28 @@
 <template>
   <form class="add-todo-form">
-    <input type="text" v-model="todoTittle" placeholder="Todo Title" />
+    <input v-model="todoTitle" type="text" placeholder="Todo Title" />
     <div>
-      <button @click.prevent="$emit('submit', todoTittle)">Add Todo</button>
+      <Btn class="btn" @click="$emit('submit', todoTitle)">
+        Add Todo
+      </Btn>
     </div>
   </form>
 </template>
 
 <script>
+import Btn from "./Btn.vue";
 export default{
+  components: { Btn },
     data (){
         return {
-            todoTittle: "",
+            todoTitle: "",
         };
     },
-    emits: ['submit']
-}
+    emits: ["submit"],
+};
 </script>
 
-<style>
+<style scoped>
 .add-todo-form {
   display: flex;
   justify-content: space-between;
@@ -27,31 +31,8 @@ export default{
   width: 80%;
   border: solid 2px var(--accent-color);
 }
-.add-todo-form button {
-  background: var(--accent-color);
-  color: var(--text-color);
-  border: none;
+.btn {
   height: 50px;
 }
 
-.todo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--accent-color);
-  margin-top: 30px;
-  padding: 0 20px 0 20px;
-  border-radius: 10px;
-}
-
-.remove-todo-btn {
-  border-radius: 50%;
-  border: none;
-  height: 40px;
-  width: 40px;
-  font-size: 30px;
-  color: var(--text-color);
-  background: var(--danger-color);
-  cursor: pointer;
-}
 </style>
