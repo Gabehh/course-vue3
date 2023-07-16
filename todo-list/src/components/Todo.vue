@@ -5,17 +5,12 @@
         <Btn
         circle
         type="secondary"
-        @click="$emit('remove')"
+        @click="$emit('edit')"
         class="btn edit-todo-btn"
       >
         <Pencil />
       </Btn>
-      <Btn
-        circle
-        type="danger"
-        @click="$emit('remove')"
-        class="btn"
-      >
+      <Btn circle type="danger" @click="$emit('remove')" class="btn">
         &times;
       </Btn>
       </div>
@@ -33,7 +28,7 @@ import Pencil from "./icons/Pencil.vue";
         type: String,
       },
     },
-    emits: ["remove"],
+    emits: ["remove", "edit"],
   };
   </script>
   
