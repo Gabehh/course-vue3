@@ -1,7 +1,7 @@
 <template>
   <Navbar/>
   <main class="container">
-    <Modal :show="editTodoForm.show">
+    <Modal :show="editTodoForm.show" @close="editTodoForm.show = false">
       <template #header>
         <h2>Edit Todo</h2>
       </template>
