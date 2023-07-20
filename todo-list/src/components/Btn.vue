@@ -25,9 +25,6 @@ export default {
       type: Boolean,
     },
   },
-  created() {
-    console.log(this.$attrs);
-  },
   computed: {
     backgroundColor() {
       const options = {

@@ -21,9 +21,10 @@
       </template>
     </Modal>
     <Alert
-      message="Todo title is required"
-      :show="showAlert"
-      @close="showAlert = false"
+      :message="alert.message"
+      :show="alert.show"
+      :type="alert.type"
+      @close="alert.show = false"
     />
     <section>
       <AddTodoForm @submit="addTodo"/>
@@ -47,6 +48,8 @@ import AddTodoForm from "./components/AddTodoForm.vue";
 import Todo from "./components/Todo.vue";
 import Modal from "./components/Modal.vue";
 import Btn from "./components/Btn.vue";
+import { setTransitionHooks } from "vue";
+import axios from "axios"
 
 export default {
   components: {
@@ -61,7 +64,11 @@ export default {
     return {
       todoTitle: "",
       todos: [],
-      showAlert: false,
+      alert:{
+        show: false,
+        messsage: "",
+        type: "danger"
+      },
       editTodoForm: {
         show: false,
         todo: {
@@ -71,16 +78,35 @@ export default {
       },
     };
   },
+  created(){
+    this.fetchTodo();
+  },
   methods: {
-    addTodo(title) {
+    async fetchTodo(){
+      try
+      {
+        const res = await axios.get("http://localhost:8080/todos")
+        this.todos = await res.data;
+      } catch(ex)
+      {
+        this.showAlert('Failed loading todos, check your internet connection');
+      }
+    },
+    showAlert(message, type = "danger"){
+      this.alert.show = true;
+      this.alert.message = message;
+      this.alert.type = type;
+    },
+    async addTodo(title) {
       if (title === "") {
-        this.showAlert = true;
+        this.showAlert('Todo title is required');
         return;
       } 
-      this.todos.push({
-        title,
-        id: Math.floor(Math.random() * 1000),
-      });
+      const rest = await axios.post('http://localhost:8080/todos',{
+        title
+      })
+      this.todos.push(rest.data);
+      // se puede usar el  this.fetchTodo();
     },
     showEditTodoForm(todo) {
       this.editTodoForm.show = true;
@@ -93,8 +119,10 @@ export default {
       todo.title = this.editTodoForm.todo.title;
       this.editTodoForm.show = false;
     },
-    removeTodo(id) {
+    async removeTodo(id) {
+      await axios.delete(`http://localhost:8080/todos/${id}`)
       this.todos = this.todos.filter((todo) => todo.id !== id);
+      // se puede usar el  this.fetchTodo();
     },
   },
 };
