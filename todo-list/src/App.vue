@@ -27,16 +27,19 @@
       @close="alert.show = false"
     />
     <section>
-      <AddTodoForm @submit="addTodo"/>
+      <AddTodoForm :isLoading="isPostingTodo" @submit="addTodo" />
     </section>
     <section>
-      <Todo
-        v-for="todo in todos"
-        :key="todo.id"
-        :title="todo.title"
-        @remove="removeTodo(todo.id)"
-        @edit="showEditTodoForm(todo)"
-      />
+      <Spinner class="spinner" v-if="isLoading" />
+      <div v-else>
+        <Todo
+          v-for="todo in todos"
+          :key="todo.id"
+          :title="todo.title"
+          @remove="removeTodo(todo.id)"
+          @edit="showEditTodoForm(todo)"
+        />
+      </div>
     </section>
   </main>
 </template>
@@ -50,6 +53,7 @@ import Modal from "./components/Modal.vue";
 import Btn from "./components/Btn.vue";
 import { setTransitionHooks } from "vue";
 import axios from "axios"
+import Spinner from "./components/Spinner.vue";
 
 export default {
   components: {
@@ -59,6 +63,7 @@ export default {
     Todo,
     Modal,
     Btn,
+    Spinner,
 },
   data() {
     return {
@@ -67,8 +72,10 @@ export default {
       alert:{
         show: false,
         messsage: "",
-        type: "danger"
+        type: "danger",
       },
+      isLoading: false,
+      isPostingTodo: false,
       editTodoForm: {
         show: false,
         todo: {
@@ -83,14 +90,16 @@ export default {
   },
   methods: {
     async fetchTodo(){
+      this.isLoading = true;
       try
       {
-        const res = await axios.get("http://localhost:8080/todos")
+        const res = await axios.get("http://localhost:8080/todos");
         this.todos = await res.data;
       } catch(ex)
       {
-        this.showAlert('Failed loading todos, check your internet connection');
+        this.showAlert("Failed loading todos");
       }
+      this.isLoading = false;
     },
     showAlert(message, type = "danger"){
       this.alert.show = true;
@@ -102,10 +111,12 @@ export default {
         this.showAlert('Todo title is required');
         return;
       } 
-      const rest = await axios.post('http://localhost:8080/todos',{
-        title
-      })
-      this.todos.push(rest.data);
+      this.isPostingTodo = true;
+      const res = await axios.post("http://localhost:8080/todos", {
+        title,
+      });
+      this.isPostingTodo = false;
+      this.todos.push(res.data);
       // se puede usar el  this.fetchTodo();
     },
     showEditTodoForm(todo) {
@@ -129,6 +140,11 @@ export default {
 </script>
 
 <style scoped>
+.spinner {
+  margin: auto;
+  margin-top: 30px;
+}
+
 .edit-todo-form > input {
   width: 100%;
   height: 30px;

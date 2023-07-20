@@ -53,6 +53,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.btn:disabled {
+  opacity: 80%;
+}
+
 .circle {
   border-radius: 50%;
 }
