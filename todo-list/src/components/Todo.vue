@@ -16,33 +16,33 @@
       </div>
     </div>
 </template>
-  
-  <script>
+
+<script setup>
 import Btn from "./Btn.vue";
 import Pencil from "./icons/Pencil.vue";
-  export default {
-    components: { Btn, Pencil },
-    props: {
-      title: {
-        required: true,
-        type: String,
-      },
-    },
-    emits: ["remove", "edit"],
-  };
-  </script>
-  
-  <style scoped>
-  .todo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--accent-color);
-    margin-top: 30px;
-    padding: 0 20px 0 20px;
-    border-radius: 10px;
-  }
-  .todo > div {
+
+defineProps({
+  title: {
+    required: true,
+    type: String,
+  },
+});
+
+defineEmits(["remove", "edit"]);
+</script>
+
+<style scoped>
+.todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--accent-color);
+  margin-top: 30px;
+  padding: 0 20px 0 20px;
+  border-radius: 10px;
+}
+
+.todo > div {
   display: flex;
 }
 .edit-todo-btn {
