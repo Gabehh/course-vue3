@@ -1,16 +1,3 @@
 {
-  "todos": [
-    {
-      "title": "test",
-      "id": 4
-    },
-    {
-      "title": "gabe",
-      "id": 5
-    },
-    {
-      "title": "dsadas",
-      "id": 6
-    }
-  ]
+  "todos": []
 }
